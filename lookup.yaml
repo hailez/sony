@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: country-lookup
-          image: country-lookup
+          image: country-lookup:latest
           ports:
             - containerPort: 5000
 ---
