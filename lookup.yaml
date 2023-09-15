@@ -1,0 +1,33 @@
+# deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: country-lookup
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: country-lookup
+  template:
+    metadata:
+      labels:
+        app: country-lookup
+    spec:
+      containers:
+        - name: country-lookup
+          image: country-lookup
+          ports:
+            - containerPort: 5000
+---
+# service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: country-lookup
+spec:
+  selector:
+    app: country-lookup
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 5000
