@@ -16,6 +16,7 @@ spec:
       containers:
         - name: country-lookup
           image: country-lookup:latest
+          image-pull-policy: Never
           ports:
             - containerPort: 5000
 ---
