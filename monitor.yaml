@@ -1,0 +1,27 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: heartbeat
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: heartbeat
+              image: curlimages/curl
+              command:
+                - "/bin/sh"
+                - "-c"
+                - |
+                  #!/bin/bash
+                  endpoint="http://127.0.0.1:8080/health"
+                  http_code=$(curl -s -o /dev/null -w "%{http_code}" "$endpoint")
+                  if [ "$http_code" != "200" ]; then
+                    echo "Service is down at the Moment"
+                    echo "Notify the Respective Team"
+                  else
+                    echo "Response code is 200. No further action needed."
+                  fi
+          restartPolicy: OnFailure
